@@ -1,0 +1,147 @@
+/* -------------------------------------------------------------------------- *
+ * Theme
+ * -------------------------------------------------------------------------- */
+
+/* --- General -------------------------------------------------------------- */
+
+body {
+  background-color: #E4E7EA;
+}
+a {
+  color: #FF4081;
+}
+a:hover {
+  color: #1976D2;
+}
+.bg-image.no-image {
+  background-color: #1976D2;
+}
+
+/* --- Navbar --------------------------------------------------------------- */
+
+.navbar {
+  background-color: #2196F3;
+  color: white;
+}
+.navbar a {
+  color: white;
+}
+.navbar--nav-link:hover {
+  background-color: rgba(255,255,255,.5);
+  border-bottom: 3px solid white;
+}
+
+/* --- Header --------------------------------------------------------------- */
+
+.header {
+  background-color: #333;
+  color: white;
+}
+.header .navbar.fixed.autohide.show {
+  background-color: #1976D2;
+}
+.header--subtitle {
+  color: #ddd;
+}
+
+/* --- Content -------------------------------------------------------------- */
+
+.post--content > h1,
+.post--content > h2,
+.post--content > h3,
+.post--content > h4,
+.post--content > h5,
+.post--content > h6 {
+  border-color: #2196F3;
+}
+.post--content p > code {
+  background-color: #e0f2f1;
+  color: #2196F3;
+}
+.post--content blockquote {
+  background-color: #e0f2f1;
+  border-color: #2196F3;
+}
+.post--tags a {
+  color: #888;
+  background-color: rgba(127,127,127,0.15);
+}
+.post--tags a:hover {
+  background-color: rgba(127,127,127,0.3);
+}
+
+article{
+  width: 100%;
+}
+
+/* --- Cards ---------------------------------------------------------------- */
+
+.card {
+  background-color: white;
+}
+.card.image .bg-darken {
+  color: white;
+}
+.card-image .bg-lighten {
+  color: black;
+}
+.card--back {
+  background-color: #333;
+  color: white;
+}
+
+/* --- Author --------------------------------------------------------------- */
+
+.author {
+  background-color: rgba(0,0,0,.05);
+}
+.author--media {
+  background-color: #1976D2;
+}
+
+/* --- FABs ----------------------------------------------------------------- */
+
+.fab {
+  color: white;
+  background-color: #FF4081;
+}
+.fab:hover {
+  color: white;
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+
+.button.solid {
+  color: white;
+  background-color: #FF4081;
+}
+
+/* --- Waves ---------------------------------------------------------------- */
+
+.wave {
+  background-color: white;
+}
+
+/* --- Footer --------------------------------------------------------------- */
+
+.footer {
+  background-color: #1976D2;
+}
+.footer a {
+  color: #B2DFDB;
+}
+.footer a:hover {
+  color: #FFFFFF;
+}
+.footer--top {
+  color: #BBDEFB;
+}
+.footer--bottom a {
+  color: #BBDEFB;
+}
+.footer--bottom a:hover {
+  color: #BBDEFB;
+}
+.footer--bottom {
+  color: #BBDEFB ;
+}
