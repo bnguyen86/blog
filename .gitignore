@@ -33,6 +33,7 @@ Session.vim
 
 # TernJS
 .tern-project
+*.sublime-project
 
 # Ghost DB file
 *.db

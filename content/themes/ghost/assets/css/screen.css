@@ -48,8 +48,7 @@ strong, b {
   bottom: 0; left: 0;
   width: 100%;
   height: 50%;
-  opacity: .6;
-  background: linear-gradient(transparent, black);
+
 }
 .bg-darken {
   color: white;
@@ -204,7 +203,7 @@ strong, b {
   width: 100%;
   flex: 0 0 380px;
   height: 380px;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 }
 .header.shaded {
   box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
@@ -252,10 +251,32 @@ strong, b {
   margin: .5rem 0 0 0;
 }
 
-.header-logo {
+/* --- header button bar -------------------------------------------------- */
+.header-nav {
+  width: 100%;
+  text-align: center;
   position: relative;
-  bottom: 80px;
-  width: 200px;
+  bottom: 50px;
+}
+
+.header-nav .fab {
+  display: inline-block;
+  position: relative;
+  bottom: 20px;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  line-height: 50px;
+  font-size: 40px;
+}
+
+.header-nav .fab .mdi-linkedin{
+  background-color: #0077B5;
+}
+
+.header-nav .header-logo{
+  display: inline-block;
+  width: 100px;
   height: auto;
 }
 
