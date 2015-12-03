@@ -37,10 +37,15 @@
     <h1 class="header--title center">{{@blog.title}}</h1>
     <h5 class="header--subtitle center">{{@blog.description}}</h5>
   </div>
+     <!--Blog logo-->
+  {{#if @blog.logo}}
+    <img class="header-logo blog-logo" src="{{@blog.logo}}" alt="Blog Logo">
+  {{/if}}
   <!-- Background -->
   {{#if @blog.cover}}
     <img class="bg-image" src="{{@blog.cover}}" />
   {{/if}}
+
 </header>
 
 
