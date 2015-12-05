@@ -257,6 +257,7 @@ strong, b {
   text-align: center;
   position: relative;
   bottom: 50px;
+  z-index: 9999;
 }
 
 .header-nav .fab {
