@@ -15,36 +15,34 @@ var hbs             = require('express-hbs'),
     filters         = require('../filters'),
 
     api                 = require('../api'),
+    assetHelper         = require('./asset'),
     urlHelper           = require('./url'),
     meta_description    = require('./meta_description'),
     meta_title          = require('./meta_title'),
     excerpt             = require('./excerpt'),
     tagsHelper          = require('./tags'),
     imageHelper         = require('./image'),
-
     labs                = require('../utils/labs'),
 
     blog,
     ghost_head;
 
 function getClient() {
-    return labs.isSet('publicAPI').then(function (publicAPI) {
-        if (publicAPI === true) {
-            return api.clients.read({slug: 'ghost-frontend'}).then(function (client) {
-                client = client.clients[0];
-                if (client.status === 'enabled') {
-                    return {
-                        id: client.slug,
-                        secret: client.secret
-                    };
-                }
+    if (labs.isSet('publicAPI') === true) {
+        return api.clients.read({slug: 'ghost-frontend'}).then(function (client) {
+            client = client.clients[0];
+            if (client.status === 'enabled') {
+                return {
+                    id: client.slug,
+                    secret: client.secret
+                };
+            }
 
-                return {};
-            });
-        }
+            return {};
+        });
+    }
 
-        return {};
-    });
+    return {};
 }
 
 function writeMetaTag(property, content, type) {
@@ -279,6 +277,17 @@ function finaliseSchema(schema, head) {
     return head;
 }
 
+function getAjaxHelper(clientId, clientSecret) {
+    return '<script type="text/javascript" src="' +
+        assetHelper('shared/ghost-url.js', {hash: {minifyInProduction: true}}) + '"></script>\n' +
+        '<script type="text/javascript">\n' +
+        'ghost.init({\n' +
+        '\tclientId: "' + clientId + '",\n' +
+        '\tclientSecret: "' + clientSecret + '"\n' +
+        '});\n' +
+        '</script>';
+}
+
 ghost_head = function (options) {
     // create a shortcut for theme config
     blog = config.theme;
@@ -293,7 +302,7 @@ ghost_head = function (options) {
         schema,
         title = hbs.handlebars.Utils.escapeExpression(blog.title),
         context = self.context ? self.context[0] : null,
-        contextObject = self[context] || blog;
+        contextObject = _.cloneDeep(self[context] || blog);
 
     // Store Async calls in an object of named promises
     props.url = urlHelper.call(self, {hash: {absolute: true}});
@@ -339,8 +348,7 @@ ghost_head = function (options) {
             }
 
             if (metaData.clientId && metaData.clientSecret) {
-                head.push(writeMetaTag('ghost:client_id', metaData.clientId));
-                head.push(writeMetaTag('ghost:client_secret', metaData.clientSecret));
+                head.push(getAjaxHelper(metaData.clientId, metaData.clientSecret));
             }
         }
 

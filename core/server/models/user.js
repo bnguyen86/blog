@@ -161,15 +161,14 @@ User = ghostBookshelf.Model.extend({
         return roles.some(function getRole(role) {
             return role.get('name') === roleName;
         });
-    }
-
-}, {
-    findPageDefaultOptions: function findPageDefaultOptions() {
-        return {
-            status: 'active'
-        };
     },
-
+    enforcedFilters: function enforcedFilters() {
+        return this.isPublicContext() ? 'status:[' + activeStates.join(',') + ']' : null;
+    },
+    defaultFilters: function defaultFilters() {
+        return this.isPublicContext() ? null : 'status:[' + activeStates.join(',') + ']';
+    }
+}, {
     orderDefaultOptions: function orderDefaultOptions() {
         return {
             last_login: 'DESC',
@@ -228,7 +227,7 @@ User = ghostBookshelf.Model.extend({
                 findOne: ['withRelated', 'status'],
                 setup: ['id'],
                 edit: ['withRelated', 'id'],
-                findPage: ['page', 'limit', 'columns', 'order', 'status']
+                findPage: ['page', 'limit', 'columns', 'filter', 'order', 'status']
             };
 
         if (validOptions[methodName]) {
@@ -246,6 +245,7 @@ User = ghostBookshelf.Model.extend({
     findOne: function findOne(data, options) {
         var query,
             status,
+            optInc,
             lookupRole = data.role;
 
         delete data.role;
@@ -258,6 +258,7 @@ User = ghostBookshelf.Model.extend({
         delete data.status;
 
         options = options || {};
+        optInc = options.include;
         options.withRelated = _.union(options.withRelated, options.include);
         data = this.filterData(data);
 
@@ -286,6 +287,7 @@ User = ghostBookshelf.Model.extend({
 
         options = this.filterOptions(options, 'findOne');
         delete options.include;
+        options.include = optInc;
 
         return query.fetch(options);
     },
@@ -443,7 +445,7 @@ User = ghostBookshelf.Model.extend({
         if (_.isNumber(userModelOrId) || _.isString(userModelOrId)) {
             // Grab the original args without the first one
             origArgs = _.toArray(arguments).slice(1);
-            // Get the actual post model
+            // Get the actual user model
             return this.findOne({id: userModelOrId, status: 'all'}, {include: ['roles']}).then(function then(foundUserModel) {
                 // Build up the original args but substitute with actual model
                 var newArgs = [foundUserModel].concat(origArgs);

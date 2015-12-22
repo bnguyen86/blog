@@ -10,27 +10,8 @@ var _              = require('lodash'),
     events         = require('../events'),
     config         = require('../config'),
     baseUtils      = require('./base/utils'),
-    permalinkSetting = '',
-    getPermalinkSetting,
     Post,
     Posts;
-
-// Stores model permalink format
-
-getPermalinkSetting = function getPermalinkSetting(model, attributes, options) {
-    /*jshint unused:false*/
-
-    // Transactions are used for bulk deletes and imports which don't need this anyway
-    if (options.transacting) {
-        return Promise.resolve();
-    }
-    return ghostBookshelf.model('Settings').findOne({key: 'permalinks'}).then(function then(response) {
-        if (response) {
-            response = response.toJSON(options);
-            permalinkSetting = response.hasOwnProperty('value') ? response.value : '';
-        }
-    });
-};
 
 Post = ghostBookshelf.Model.extend({
 
@@ -59,10 +40,6 @@ Post = ghostBookshelf.Model.extend({
         this.on('saved', function onSaved(model, response, options) {
             return self.updateTags(model, response, options);
         });
-
-        // Ensures local copy of permalink setting is kept up to date
-        this.on('fetching', getPermalinkSetting);
-        this.on('fetching:collection', getPermalinkSetting);
 
         this.on('created', function onCreated(model) {
             model.emitChange('added');
@@ -324,19 +301,18 @@ Post = ghostBookshelf.Model.extend({
         }
 
         if (!options.columns || (options.columns && options.columns.indexOf('url') > -1)) {
-            attrs.url = config.urlPathForPost(attrs, permalinkSetting);
+            attrs.url = config.urlPathForPost(attrs);
         }
 
         return attrs;
+    },
+    enforcedFilters: function enforcedFilters() {
+        return this.isPublicContext() ? 'status:published' : null;
+    },
+    defaultFilters: function defaultFilters() {
+        return this.isPublicContext() ? 'page:false' : 'page:false+status:published';
     }
 }, {
-    findPageDefaultOptions: function findPageDefaultOptions() {
-        return {
-            staticPages: false, // include static pages
-            status: 'published'
-        };
-    },
-
     orderDefaultOptions: function orderDefaultOptions() {
         return {
             status: 'ASC',
@@ -358,7 +334,7 @@ Post = ghostBookshelf.Model.extend({
         options.where = {statements: []};
 
         // Step 4: Setup filters (where clauses)
-        if (options.staticPages !== 'all') {
+        if (options.staticPages && options.staticPages !== 'all') {
             // convert string true/false to boolean
             if (!_.isBoolean(options.staticPages)) {
                 options.staticPages = _.contains(['true', '1'], options.staticPages);
@@ -372,12 +348,12 @@ Post = ghostBookshelf.Model.extend({
 
         // Unless `all` is passed as an option, filter on
         // the status provided.
-        if (options.status !== 'all') {
+        if (options.status && options.status !== 'all') {
             // make sure that status is valid
             options.status = _.contains(['published', 'draft'], options.status) ? options.status : 'published';
             options.where.statements.push({prop: 'status', op: '=', value: options.status});
             delete options.status;
-        } else {
+        } else if (options.status === 'all') {
             options.where.statements.push({prop: 'status', op: 'IN', value: ['published', 'draft']});
             delete options.status;
         }
@@ -615,14 +591,7 @@ Post = ghostBookshelf.Model.extend({
 });
 
 Posts = ghostBookshelf.Collection.extend({
-    model: Post,
-
-    initialize: function initialize() {
-        ghostBookshelf.Collection.prototype.initialize.apply(this, arguments);
-
-        // Ensures local copy of permalink setting is kept up to date
-        this.on('fetching', getPermalinkSetting);
-    }
+    model: Post
 });
 
 module.exports = {
