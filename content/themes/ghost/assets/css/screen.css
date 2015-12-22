@@ -1016,7 +1016,7 @@ strong, b {
  * -------------------------------------------------------------------------- */
 
 .twitter {
-  background-color: #F7CC30 !important;
+  background-color: #55acee !important;
   color: white;
 }
 .github {
@@ -1024,11 +1024,21 @@ strong, b {
   color: white;
 }
 .google-plus {
-  background-color: #0077B5 !important;
+  background-color: #f44336 !important;
   color: white;
 }
 .facebook {
   background-color: #3b5998 !important;
+  color: white;
+}
+
+.linkedin {
+  background-color: #0077B5 !important;
+  color: white;
+}
+
+.email {
+  background-color: #F7CC30 !important;
   color: white;
 }
 
