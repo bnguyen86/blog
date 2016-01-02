@@ -1,0 +1,140 @@
+
+.menu-wrapper {
+  background: transparent;
+  width: 40vw;
+  height: 100vh;
+  overflow: hidden;
+
+  position: fixed;
+  left: 0px;
+}
+
+.material-menu {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 3;
+}
+
+.material-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  background: transparent;
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 2;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.material-btn.active .material-hamburguer:before {
+  -webkit-transform: scale(25);
+          transform: scale(25);
+}
+.material-btn .material-hamburguer {
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+.material-btn .material-hamburguer:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 75px;
+  height: 75px;
+  z-index: -1;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: all 0.35s ease-out;
+  transition: all 0.35s ease-out;
+}
+.material-btn .material-hamburguer .material-patty {
+  width: 32px;
+  height: 4px;
+  background: #333;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+.material-btn .material-hamburguer .material-patty:not(:last-child) {
+  margin-bottom: 6px;
+}
+.material-btn .material-hamburguer.material-close {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+.material-btn .material-hamburguer.material-close .material-patty:nth-child(1) {
+  -webkit-transform: translate(9px, 4px) rotate(45deg) scale(0.5, 1);
+          transform: translate(9px, 4px) rotate(45deg) scale(0.5, 1);
+}
+.material-btn .material-hamburguer.material-close .material-patty:nth-child(3) {
+  -webkit-transform: translate(9px, -4px) rotate(-45deg) scale(0.5, 1);
+          transform: translate(9px, -4px) rotate(-45deg) scale(0.5, 1);
+}
+
+.material-content {
+  position: relative;
+  z-index: 1;
+}
+.material-content nav {
+  height: 40vh;
+  position: absolute;
+  top: 100px;
+  padding: 15%;
+}
+.material-content nav li {
+  margin-bottom: 40px;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  -webkit-transform: translateY(70px);
+          transform: translateY(70px);
+  opacity: 0;
+}
+.material-content nav li.active {
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+  opacity: 1;
+}
+.material-content nav li:nth-child(1) {
+  -webkit-transition-delay: 0.1s;
+          transition-delay: 0.1s;
+}
+.material-content nav li:nth-child(2) {
+  -webkit-transition-delay: 0.2s;
+          transition-delay: 0.2s;
+}
+.material-content nav li:nth-child(3) {
+  -webkit-transition-delay: 0.3s;
+          transition-delay: 0.3s;
+}
+.material-content nav li:nth-child(4) {
+  -webkit-transition-delay: 0.4s;
+          transition-delay: 0.4s;
+}
+.material-content a {
+  font-size: 5vw;
+  color: tomato;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.material-content.active {
+  z-index: 2;
+}
